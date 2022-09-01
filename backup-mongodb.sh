@@ -24,14 +24,8 @@ if [ ! -z "$PASSWORD_7ZIP" ]; then
     7za a -tzip -p"$PASSWORD_7ZIP" -mem=AES256 "$COPY_NAME" "$ARCHIVE_NAME"
 fi
 
-
-S3_ENDPOINT_OPT=""
-if [ ! -z "$S3_ENDPOINT_URL" ]; then
-  S3_ENDPOINT_OPT="--endpoint-url $S3_ENDPOINT_URL"
-fi
-
 echo "[$SCRIPT_NAME] Uploading compressed archive to S3 bucket..."
-aws ${S3_ENDPOINT_OPT} s3 cp "$COPY_NAME" "$BUCKET_URI/$COPY_NAME"
+aws s3 cp "$COPY_NAME" "$BUCKET_URI/$COPY_NAME"
 
 echo "[$SCRIPT_NAME] Cleaning up compressed archive..."
 rm "$COPY_NAME"
